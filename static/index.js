@@ -35,7 +35,7 @@ async function handleInsert(event) {
 
         if (response.ok) {
 
-            redirect("/");
+            redirects("/");
 
             user.name = name;
             user.lastname = lname;

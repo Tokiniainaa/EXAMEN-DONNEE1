@@ -13,8 +13,8 @@ app.use(express.json());
 const client = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'hotel_donne',
-    password: 'rodyandry',
+    database: 'exam2',
+    password: 'toky',
     port: 5432
 });
 
@@ -40,6 +40,10 @@ app.get("/accomodation", (req, res) => {
 app.get("/about", (req, res) => {
     res.sendFile(__dirname + "/static/STELLAR/about.html");
 })
+app.get("/login", (req, res) => {
+    res.sendFile(__dirname + "/static/STELLAR/login/login.html");
+})
+
 
 app.get('/redirection', (req, res) => {
     const destination = req.query.destination;
