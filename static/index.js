@@ -50,5 +50,31 @@ async function handleInsert(event) {
     }
 }
 
+async function logAdmin(event) {
+    event.preventDefault();
 
-document.getElementById("formLogin").addEventListener("submit", handleInsert)
+    const formData = new FormData(event.target);
+    const email = formData.get("email");
+    const pass = formData.get("pass");
+
+    try {
+        const response = await fetch('/checkAdmin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, pass }),
+        });
+
+        if (response.ok) {
+            // Authentification réussie, rediriger ou effectuer d'autres actions
+            redirects("/");
+        } else {
+            event.target.reset();
+            alert("Access denied");
+            const data = await response.json();
+            alert(data.error);
+        }
+    } catch (error) {
+        console.error('Erreur de connexion:', error);
+        messageDiv.textContent = 'Erreur de connexion';
+    }
+}
