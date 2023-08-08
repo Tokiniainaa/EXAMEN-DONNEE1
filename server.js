@@ -4,7 +4,7 @@ const { Pool } = pkg;
 const bodyParser = require('body-parser');
 const session = require('express-session');
 
-const app = express();
+const app = express()
 
 const socketIO = require('socket.io');
 const http = require('http');

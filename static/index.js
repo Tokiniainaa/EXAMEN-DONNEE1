@@ -45,7 +45,7 @@ async function handleInsert(event) {
             user.email = mail;
             user.password = password;
 
-            redirects("/");
+            redirects('/');
 
             const signTitle = document.getElementById("toggle-sign");
             console.log(signTitle);
