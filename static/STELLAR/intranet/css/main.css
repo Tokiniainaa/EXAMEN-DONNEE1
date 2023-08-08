@@ -508,3 +508,9 @@ iframe {
     opacity: 1;
   }
 }
+
+
+
+.none {
+  display: none !important;
+}
