@@ -69,6 +69,23 @@ app.post('/insert', async (req, res) => {
 });
 
 
+app.post('/resevation', async (req, res) => {
+    console.log(req.body);
+    const { start_date,end_date } = req.body;
+
+    try {
+
+        const query = 'INSERT INTO reservation (start_date_of_stay,end_date_of_stay) VALUES ($1, $2)';
+        await client.query(query, [start_date,end_date]);
+
+        res.sendStatus(200);
+    } catch (error) {
+        console.error('Erreur lors de l\'insertion :', error);
+        res.sendStatus(500);
+    }
+});
+
+
 //select
 app.get('/users', async (req, res) => {
     try {
