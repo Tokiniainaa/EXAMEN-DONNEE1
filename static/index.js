@@ -22,7 +22,7 @@ async function handleInsert(event) {
     const lname = formData.get("lname");
     const mail = formData.get("mail");
     const password = formData.get("password");
-    
+
 
     try {
 
@@ -79,3 +79,4 @@ async function logAdmin(event) {
         messageDiv.textContent = 'Erreur de connexion';
     }
 }
+
