@@ -79,3 +79,4 @@ async function logAdmin(event) {
         messageDiv.textContent = 'Erreur de connexion';
     }
 }
+
