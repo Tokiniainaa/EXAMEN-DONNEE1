@@ -73,10 +73,6 @@ async function logAdmin(event) {
         if (response.ok) {
             // Authentification réussie, rediriger ou effectuer d'autres actions
             redirects("/");
-            /*const signTitle = document.getElementById("toggle-sign");
-            signTitle.classList.remove("sign");
-            signTitle.innerText = "log out"
-            console.log(signTitle);*/
         } else {
             event.target.reset();
             alert("Access denied");
