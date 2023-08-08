@@ -23,7 +23,6 @@ async function handleInsert(event) {
     const mail = formData.get("mail");
     const password = formData.get("password");
 
-
     try {
 
         const response = await fetch('/insert', {
@@ -36,12 +35,17 @@ async function handleInsert(event) {
 
         if (response.ok) {
 
-            redirects("/");
-
             user.name = name;
             user.lastname = lname;
             user.email = mail;
             user.password = password;
+
+            redirects("/");
+
+            const signTitle = document.getElementById("toggle-sign");
+            console.log(signTitle);
+            signTitle.classList.remove("sign");
+            signTitle.innerHTML = "logout";
 
         } else {
             alert('Erreur lors de l\'insertion.');
@@ -59,6 +63,7 @@ async function logAdmin(event) {
     const pass = formData.get("pass");
 
     try {
+
         const response = await fetch('/checkAdmin', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -68,6 +73,10 @@ async function logAdmin(event) {
         if (response.ok) {
             // Authentification réussie, rediriger ou effectuer d'autres actions
             redirects("/");
+            /*const signTitle = document.getElementById("toggle-sign");
+            signTitle.classList.remove("sign");
+            signTitle.innerText = "log out"
+            console.log(signTitle);*/
         } else {
             event.target.reset();
             alert("Access denied");
@@ -79,4 +88,3 @@ async function logAdmin(event) {
         messageDiv.textContent = 'Erreur de connexion';
     }
 }
-
