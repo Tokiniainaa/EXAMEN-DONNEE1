@@ -76,23 +76,6 @@ app.post('/insert', async (req, res) => {
 });
 
 
-app.post('/resevation', async (req, res) => {
-    console.log(req.body);
-    const { start_date, end_date } = req.body;
-
-    try {
-
-        const query = 'INSERT INTO reservation (start_date_of_stay,end_date_of_stay) VALUES ($1, $2)';
-        await client.query(query, [start_date, end_date]);
-
-        res.sendStatus(200);
-    } catch (error) {
-        console.error('Erreur lors de l\'insertion :', error);
-        res.sendStatus(500);
-    }
-});
-
-
 //select
 /*app.get('/users', async (req, res) => {
     try {
@@ -131,7 +114,36 @@ app.post('/checkAdmin', async (req, res) => {
         console.error(error);
         res.sendStatus(500); // Erreur interne du serveur
     }
+
 });
+
+
+
+app.post('/reserve', async (req, res) => {
+    console.log(req.body);
+    const { room_conf, city } = req.body;
+
+    try {
+        let query;
+        if (room_conf === "room") {
+            query = `SELECT * FROM hotel WHERE hotel_city='${city}'`;
+        } else {
+            query = `SELECT floor_area, price_for_one_hour FROM conference_room`;
+        }
+
+        const result = await client.query(query);
+
+        console.log(result.rows);
+
+        res.json(result.rows); // Renvoyer les résultats au client
+
+    } catch (error) {
+        console.error('Erreur lors de l\'insertion :', error);
+        res.sendStatus(500); // Renvoyer une réponse d'erreur au client
+    }
+});
+
+
 
 
 app.listen(4321, () => {
