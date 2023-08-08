@@ -13,8 +13,8 @@ app.use(express.json());
 const client = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'exam2',
-    password: 'toky',
+    database: 'donne',
+    password: 'Barth123',
     port: 5432
 });
 
@@ -68,12 +68,30 @@ app.post('/insert', async (req, res) => {
     }
 });
 
+app.get('/api/getData', async (req, res) => {
+    try {
+        // Fetch user and customer data from your database
+        const userData = await client.query('SELECT * FROM "user"');
+        const customerData = await client.query('SELECT * FROM customer');
 
+        // Combine and format the data as needed
+        const combinedData = [...userData.rows, ...customerData.rows];
+
+        // Send the data as JSON response
+        res.json(combinedData);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+});
+app.get('/intranet', (req, res) => {
+    res.sendFile(__dirname + "/static/STELLAR/intranet.html");
+});
 //select
 app.get('/users', async (req, res) => {
     try {
 
-        const query = 'SELECT * FROM users';
+        const query = 'SELECT * FROM user';
         const result = await client.query(query);
         console.log(result.rows);
         res.json(result.rows);
