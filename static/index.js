@@ -73,10 +73,46 @@ async function logAdmin(event) {
         if (response.ok) {
             // Authentification réussie, rediriger ou effectuer d'autres actions
             redirects("/");
-            /*const signTitle = document.getElementById("toggle-sign");
-            signTitle.classList.remove("sign");
-            signTitle.innerText = "log out"
-            console.log(signTitle);*/
+        } else {
+            event.target.reset();
+            alert("Access denied");
+            const data = await response.json();
+            alert(data.error);
+        }
+    } catch (error) {
+        console.error('Erreur de connexion:', error);
+        messageDiv.textContent = 'Erreur de connexion';
+    }
+}
+
+function book(params) {
+
+}
+
+
+
+
+
+
+
+async function logAdmin(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const email = formData.get("email");
+    const pass = formData.get("pass");
+
+    try {
+
+        const response = await fetch('/checkAdmin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, pass }),
+        });
+
+        if (response.ok) {
+            // Authentification réussie, rediriger ou effectuer d'autres actions
+            redirects("/");
         } else {
             event.target.reset();
             alert("Access denied");

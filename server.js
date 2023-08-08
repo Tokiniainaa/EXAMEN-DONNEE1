@@ -64,7 +64,7 @@ app.post('/insert', async (req, res) => {
 
     try {
 
-        const query = 'INSERT INTO "user" (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)';
+        const query = 'INSERT INTO customer (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)';
         await client.query(query, [name, lname, mail, password]);
 
         res.sendStatus(200);
@@ -78,12 +78,12 @@ app.post('/insert', async (req, res) => {
 
 app.post('/resevation', async (req, res) => {
     console.log(req.body);
-    const { start_date,end_date } = req.body;
+    const { start_date, end_date } = req.body;
 
     try {
 
         const query = 'INSERT INTO reservation (start_date_of_stay,end_date_of_stay) VALUES ($1, $2)';
-        await client.query(query, [start_date,end_date]);
+        await client.query(query, [start_date, end_date]);
 
         res.sendStatus(200);
     } catch (error) {
@@ -94,7 +94,7 @@ app.post('/resevation', async (req, res) => {
 
 
 //select
-app.get('/users', async (req, res) => {
+/*app.get('/users', async (req, res) => {
     try {
 
         const query = 'SELECT * FROM users';
@@ -108,7 +108,7 @@ app.get('/users', async (req, res) => {
         console.error('Error executing query:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
-});
+});*/
 
 
 // Gestion de la connexion
