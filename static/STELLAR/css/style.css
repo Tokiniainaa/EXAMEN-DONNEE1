@@ -317,9 +317,14 @@ button:focus {
   display: none;
 }
 
+.active{
+  color: #f09359;
+}
+
 .navbar .menu_nav .nav-item:hover .nav-link,
 .navbar .menu_nav .nav-item.active .nav-link {
-  color: #52c5fd;
+  cursor: pointer;
+  color: #f09359;
 }
 
 .navbar .menu_nav .nav-item.submenu {
@@ -420,10 +425,13 @@ button:focus {
   margin-top: 0px;
 }
 
-.navbar .menu_nav .nav-item+li {
+.navbar .menu_nav .nav-item {
+  cursor: pointer;
   margin-left: 30px;
 }
-
+.navbar .menu_nav .nav-item:hover {
+  color: #f09359; 
+}
 .menu_two {
   background: rgba(255, 255, 255, 0.15);
 }
