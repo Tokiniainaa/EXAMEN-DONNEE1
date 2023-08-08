@@ -65,3 +65,17 @@ async function logAdmin(event) {
             body: JSON.stringify({ email, pass }),
         });
 
+        if (response.ok) {
+            // Authentification réussie, rediriger ou effectuer d'autres actions
+            redirects("/");
+        } else {
+            event.target.reset();
+            alert("Access denied");
+            const data = await response.json();
+            alert(data.error);
+        }
+    } catch (error) {
+        console.error('Erreur de connexion:', error);
+        messageDiv.textContent = 'Erreur de connexion';
+    }
+}
