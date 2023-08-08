@@ -18,9 +18,14 @@ async function handleInsert(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
+
     const name = formData.get("name");
     const lname = formData.get("lname");
     const mail = formData.get("mail");
+    const gender = formData.get("gender");
+    const phone_number = formData.get("phone_number");
+    const emergency = formData.get("emergency");
+    const nation = formData.get("nation");
     const password = formData.get("password");
 
     try {
@@ -30,7 +35,7 @@ async function handleInsert(event) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, lname, mail, password })
+            body: JSON.stringify({ name, lname, mail, gender, phone_number, emergency, nation, password })
         });
 
         if (response.ok) {
@@ -133,9 +138,27 @@ async function book(event) {
                     type: room_conf,
                     start: start_date,
                     end: end_date,
-                    city: city
+                    city: city,
+                    subject: user
                 }
             )
+
+
+            document.getElementById("list_data").innerHTML = `
+            <div class="col-lg-3 col-sm-6">
+                <div class="accomodation_item text-center">
+                    <div class="hotel_img">
+                    <img src="STELLAR/image/room1.jpg" alt="" />
+                    <a href="#" class="btn theme_btn button_hover">Book Now</a>
+                </div>
+                <a href="#">
+                    <h4 class="sec_h4">Double Deluxe Room</h4>
+                </a>
+                <h5>40000AR<small>/night</small></h5>
+            </div>
+        </div>
+
+            `
 
             redirects("/accomodation");
         } else {

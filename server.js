@@ -60,12 +60,15 @@ app.get('/redirection', (req, res) => {
 ///insert
 app.post('/insert', async (req, res) => {
     console.log(req.body);
-    const { name, lname, mail, password } = req.body;
+    const { name, lname, mail, gender, phone_number, emergency, nation, password } = req.body;
 
     try {
 
-        const query = 'INSERT INTO customer (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)';
-        await client.query(query, [name, lname, mail, password]);
+        const query = `INSERT INTO customer 
+        (customer_firstname,  customer_lastname, gender, phone_number, emergency_contact, email, nationality, customer_password)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
+        const values = [name, lname, gender, phone_number, emergency, mail, nation, password]
+        await client.query(query, values);
 
         res.sendStatus(200);
 
@@ -75,23 +78,6 @@ app.post('/insert', async (req, res) => {
     }
 });
 
-
-//select
-/*app.get('/users', async (req, res) => {
-    try {
-
-        const query = 'SELECT * FROM users';
-        const result = await client.query(query);
-        res.json(result.rows);
-        console.log(result.rows);
-
-        //res.sendStatus(200);
-
-    } catch (error) {
-        console.error('Error executing query:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});*/
 
 
 // Gestion de la connexion
