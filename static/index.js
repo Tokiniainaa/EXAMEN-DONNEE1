@@ -1,14 +1,17 @@
-async function redirect() {
-    fetch('/redirection')
+function redirects(destination) {
+    // Effectuer une requête vers la route de redirection
+    fetch(`/redirection?destination=${encodeURIComponent(destination)}`)
         .then(response => {
             if (response.ok) {
-                window.location.href = '/contact';
+                // Redirection côté client si la requête a réussi
+                window.location.href = destination;
             }
         })
         .catch(error => {
             console.error('Error redirecting:', error);
         });
 }
+
 
 const user = {};
 async function handleInsert(event) {
@@ -32,7 +35,7 @@ async function handleInsert(event) {
 
         if (response.ok) {
 
-            redirect();
+            redirect("/");
 
             user.name = name;
             user.lastname = lname;

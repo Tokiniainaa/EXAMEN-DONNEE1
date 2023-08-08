@@ -13,8 +13,8 @@ app.use(express.json());
 const client = new Pool({
     user: 'postgres',
     host: 'localhost',
-    database: 'exam2',
-    password: 'toky',
+    database: 'hotel_donne',
+    password: 'rodyandry',
     port: 5432
 });
 
@@ -31,10 +31,21 @@ app.get("/", (req, res) => {
 app.get("/contact", (req, res) => {
     res.sendFile(__dirname + "/static/STELLAR/contact.html");
 })
+app.get("/gallery", (req, res) => {
+    res.sendFile(__dirname + "/static/STELLAR/gallery.html");
+})
+app.get("/accomodation", (req, res) => {
+    res.sendFile(__dirname + "/static/STELLAR/accomodation.html");
+})
+app.get("/about", (req, res) => {
+    res.sendFile(__dirname + "/static/STELLAR/about.html");
+})
 
 app.get('/redirection', (req, res) => {
-    res.redirect("/contact");
+    const destination = req.query.destination;
+    res.redirect(destination);
 });
+
 
 ///insert
 app.post('/insert', async (req, res) => {
