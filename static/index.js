@@ -18,9 +18,14 @@ async function handleInsert(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
+
     const name = formData.get("name");
     const lname = formData.get("lname");
     const mail = formData.get("mail");
+    const gender = formData.get("gender");
+    const phone_number = formData.get("phone_number");
+    const emergency = formData.get("emergency");
+    const nation = formData.get("nation");
     const password = formData.get("password");
 
     try {
@@ -30,7 +35,7 @@ async function handleInsert(event) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, lname, mail, password })
+            body: JSON.stringify({ name, lname, mail, gender, phone_number, emergency, nation, password })
         });
 
         if (response.ok) {
@@ -40,7 +45,7 @@ async function handleInsert(event) {
             user.email = mail;
             user.password = password;
 
-            redirects("/");
+            redirects('/');
 
             const signTitle = document.getElementById("toggle-sign");
             console.log(signTitle);
@@ -74,7 +79,7 @@ async function logAdmin(event) {
 
         if (response.ok) {
             // Authentification réussie, rediriger ou effectuer d'autres actions
-            redirects("/");
+            redirects('/list_user');
         } else {
             event.target.reset();
             alert("Access denied");
@@ -133,11 +138,13 @@ async function book(event) {
                     type: room_conf,
                     start: start_date,
                     end: end_date,
-                    city: city
+                    city: city,
+                    subject: user
                 }
             )
 
             redirects("/accomodation");
+
         } else {
             alert("error");
             const data = await response.json();

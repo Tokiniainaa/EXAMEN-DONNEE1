@@ -4,8 +4,14 @@ const { Pool } = pkg;
 const bodyParser = require('body-parser');
 const session = require('express-session');
 
+const app = express()
+
+const socketIO = require('socket.io');
+const http = require('http');
+const server = http.createServer(app);
+const io = socketIO(server);
+
 const cors = require("cors");
-const app = express();
 
 app.use(cors());
 app.use(express.json());
@@ -23,6 +29,14 @@ const client = new Pool({
 
 
 client.connect();
+
+
+io.on("connection", (socket) => {
+    console.log("connexion....");
+    socket.on('disconnect', () => {
+        console.log('Utilisateur déconnecté');
+    });
+})
 
 
 app.use(express.static(__dirname + '/static'));
@@ -60,12 +74,15 @@ app.get('/redirection', (req, res) => {
 ///insert
 app.post('/insert', async (req, res) => {
     console.log(req.body);
-    const { name, lname, mail, password } = req.body;
+    const { name, lname, mail, gender, phone_number, emergency, nation, password } = req.body;
 
     try {
 
-        const query = 'INSERT INTO customer (first_name, last_name, email, password) VALUES ($1, $2, $3, $4)';
-        await client.query(query, [name, lname, mail, password]);
+        const query = `INSERT INTO customer 
+        (customer_firstname,  customer_lastname, gender, phone_number, emergency_contact, email, nationality, customer_password)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
+        const values = [name, lname, gender, phone_number, emergency, mail, nation, password]
+        await client.query(query, values);
 
         res.sendStatus(200);
 
@@ -75,23 +92,6 @@ app.post('/insert', async (req, res) => {
     }
 });
 
-
-//select
-/*app.get('/users', async (req, res) => {
-    try {
-
-        const query = 'SELECT * FROM users';
-        const result = await client.query(query);
-        res.json(result.rows);
-        console.log(result.rows);
-
-        //res.sendStatus(200);
-
-    } catch (error) {
-        console.error('Error executing query:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});*/
 
 
 // Gestion de la connexion
@@ -145,6 +145,58 @@ app.post('/reserve', async (req, res) => {
 
 
 
+
+app.get('/api/getData', async (req, res) => {
+    try {
+        // Fetch user and customer data from your database
+        const userData = await client.query('SELECT * FROM "user"');
+        const customerData = await client.query('SELECT * FROM customer');
+
+        // Combine and format the data as needed
+        const combinedData = [...userData.rows, ...customerData.rows];
+
+        // Send the data as JSON response
+        res.json(combinedData);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+});
+app.get('/list_user', (req, res) => {
+    res.sendFile(__dirname + "/static/STELLAR/intranet/list_user.html");
+});
+//select
+app.get('/users', async (req, res) => {
+    try {
+
+        const query = 'SELECT * FROM user';
+        const result = await client.query(query);
+        console.log(result.rows);
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error executing query:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+app.get('/api/getUserData', async (req, res) => {
+    try {
+        const userData = await client.query('SELECT * FROM "user"');
+        res.json(userData.rows);
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+});
+
+app.get('/api/getCustomerData', async (req, res) => {
+    try {
+        const customerData = await client.query('SELECT * FROM customer');
+        res.json(customerData.rows);
+    } catch (error) {
+        console.error('Error fetching customer data:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+});
 
 app.listen(4321, () => {
     console.log("server demmarer");
