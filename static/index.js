@@ -51,40 +51,17 @@ async function handleInsert(event) {
     }
 }
 
-
-document.getElementById("formLogin").addEventListener("submit", handleInsert)
-
-
-const reservation={};
-async function getreservation (){
-    alert("hghg")
+async function logAdmin(event) {
     event.preventDefault();
+
     const formData = new FormData(event.target);
-    const start_date = formData.get("start_date");
-    const end_date= formData.get("end_date");
+    const email = formData.get("email");
+    const pass = formData.get("pass");
+
     try {
-
-        const response = await fetch('/reservation', {
+        const response = await fetch('/checkAdmin', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ start_date,end_date})
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, pass }),
         });
-    
-        if (response.ok) {
-           
-            reservation.start_date =start_date;
-            reservation.end_date = end_date;
-            alert("okkk")
-    
-        } else {
-            alert('Erreur lors de l\'insertion.');
-        }
-    } catch (error) {
-        console.error('Erreur lors de la soumission du formulaire :', error);
-    }
 
-
-}
-document.getElementById("boutton").addEventListener("submit", getreservation);
